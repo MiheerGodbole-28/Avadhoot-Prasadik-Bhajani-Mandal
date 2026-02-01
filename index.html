@@ -1,806 +1,270 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Avadhoot Prasadik Bhajani Mandal</title>
   <style>
-    :root {
-      --color-bg-light: #f7f8fa;
-      --color-bg-dark: #181a1b;
-      --color-bg-minimal: #ffffff;
-      --color-sidebar-light: #fff;
-      --color-sidebar-dark: #23272e;
-      --color-sidebar-minimal: #ffd896;
-      --color-text-light: #222;
-      --color-text-dark: #f7f8fa;
-      --color-text-minimal: #222;
-      --color-accent: #4f8cff;
-      --color-accent-dark: #6ca0ff;
-      --color-border: #e0e0e0;
-      --color-border-dark: #2d3138;
-      --color-border-minimal: #ffc362;
-      --sidebar-width: 260px;
-      --sidebar-width-collapsed: 60px;
-      --transition: 0.2s cubic-bezier(.4,0,.2,1);
-      --font-main: 'Inter', Arial, sans-serif;
-    }
-    html[data-theme="light"] {
-      --color-bg: var(--color-bg-light);
-      --color-sidebar: var(--color-sidebar-light);
-      --color-text: var(--color-text-light);
-      --color-border: var(--color-border);
-    }
-    html[data-theme="dark"] {
-      --color-bg: var(--color-bg-dark);
-      --color-sidebar: var(--color-sidebar-dark);
-      --color-text: var(--color-text-dark);
-      --color-border: var(--color-border-dark);
-    }
-    html[data-theme="minimal"] {
-      --color-bg: var(--color-bg-minimal);
-      --color-sidebar: var(--color-sidebar-minimal);
-      --color-text: var(--color-text-minimal);
-      --color-border: var(--color-border-minimal);
-    }
     body {
+      font-family: "Segoe UI", Arial, sans-serif;
       margin: 0;
-      font-family: var(--font-main);
-      background: var(--color-bg);
-      color: var(--color-text);
-      min-height: 100vh;
+      padding: 0;
+      transition: background-color 0.3s, color 0.3s;
       display: flex;
-      transition: background var(--transition), color var(--transition);
+    }
+    header {
+      background: #333;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
     }
     .sidebar {
-      width: var(--sidebar-width);
-      background: var(--color-sidebar);
-      border-right: 1px solid var(--color-border);
-      display: flex;
-      flex-direction: column;
-      padding: 0;
-      transition: width var(--transition), background var(--transition);
-      min-height: 100vh;
+      width: 250px;
+      background: #6c6c6c;
+      color: #fff;
+      padding: 20px;
+      height: 100vh;
       position: fixed;
-      left: 0; top: 0; bottom: 0;
-      z-index: 100;
+      left: 0;
+      top: 0;
+      overflow-y: auto;
     }
-    .sidebar-header {
-      padding: 1.2rem 1.5rem 1rem 1.5rem;
-      font-size: 1.3rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      color: var(--color-accent);
-      border-bottom: 1px solid var(--color-border);
-      display: flex;
-      align-items: center;
-      gap: 0.7em;
+    .sidebar h2 {
+      margin-top: 0;
     }
-    .sidebar-nav {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 1.2rem 0.5rem 0.5rem 0.5rem;
-      gap: 0.5rem;
+    .sidebar label, .sidebar select {
+      display: block;
+      margin: 10px 0;
     }
-    .sidebar-nav button {
-      background: none;
-      border: none;
-      color: inherit;
-      font: inherit;
-      padding: 0.7em 1.2em;
-      border-radius: 0.5em;
-      text-align: left;
-      cursor: pointer;
-      transition: background var(--transition), color var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 0.7em;
-      font-size: 1rem;
-    }
-    .sidebar-nav button.active, .sidebar-nav button:focus {
-      background: var(--color-accent);
+    .sidebar nav a {
+      display: block;
       color: #fff;
-      outline: none;
+      text-decoration: none;
+      margin: 5px 0;
+      padding: 5px;
+      border-radius: 4px;
     }
-    .sidebar-controls {
-      padding: 1.2rem 1.5rem 1.5rem 1.5rem;
-      border-top: 1px solid var(--color-border);
-      display: flex;
-      flex-direction: column;
-      gap: 1.2em;
+    .sidebar nav a:hover {
+      background: #444;
     }
-    .theme-switcher, .lang-switcher {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5em;
-    }
-    .theme-switcher label, .lang-switcher label {
-      font-size: 0.95em;
-      font-weight: 500;
-      margin-bottom: 0.2em;
-    }
-    .theme-options, .lang-options {
-      display: flex;
-      gap: 0.5em;
-    }
-    .theme-options button, .lang-options button {
-      border: 1px solid var(--color-border);
-      background: none;
-      color: inherit;
-      font: inherit;
-      padding: 0.3em 0.9em;
-      border-radius: 0.4em;
-      cursor: pointer;
-      transition: background var(--transition), color var(--transition), border var(--transition);
-    }
-    .theme-options button.active, .lang-options button.active {
-      background: var(--color-accent);
-      color: #fff;
-      border-color: var(--color-accent);
-    }
-    .main-content {
-      margin-left: var(--sidebar-width);
+    .content {
+      margin-left: 270px;
+      padding: 20px;
       flex: 1;
-      min-width: 0;
-      padding: 2.2rem 2.2rem 2.2rem 2.2rem;
-      transition: margin-left var(--transition);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
     }
     .section {
-      display: none;
-      flex-direction: column;
-      gap: 1.5em;
-      max-width: 800px;
-      margin: 0 auto;
+      margin-bottom: 40px;
     }
-    .section.active {
-      display: flex;
+    .library {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
     }
-    .file-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 1.2em;
-    }
-    .file-item {
-      background: var(--color-sidebar);
-      border: 1px solid var(--color-border);
-      border-radius: 0.7em;
-      padding: 1.1em 1.2em;
-      display: flex;
-      align-items: center;
-      gap: 1.2em;
-      justify-content: space-between;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-    }
-    .file-meta {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.2em;
-    }
-    .file-name {
-      font-weight: 600;
-      font-size: 1.08em;
-      word-break: break-all;
-    }
-    .file-info {
-      font-size: 0.95em;
-      color: #888;
-      display: flex;
-      gap: 1.2em;
-    }
-    .file-actions {
-      display: flex;
-      gap: 0.7em;
-      align-items: center;
-    }
-    .file-actions button {
-      background: none;
-      border: none;
-      color: var(--color-accent);
-      font-size: 1.2em;
-      cursor: pointer;
-      padding: 0.2em 0.5em;
-      border-radius: 0.3em;
-      transition: background var(--transition), color var(--transition);
-    }
-    .file-actions button:hover, .file-actions button:focus {
-      background: var(--color-accent);
-      color: #fff;
-      outline: none;
-    }
-    .audio-player {
-      width: 180px;
-      max-width: 100%;
-      margin-top: 0.3em;
-    }
-    .upload-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2em;
-      align-items: flex-start;
-      background: var(--color-sidebar);
-      border: 1px solid var(--color-border);
-      border-radius: 0.7em;
-      padding: 1.5em 1.5em 1.2em 1.5em;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-    }
-    .upload-label {
-      font-weight: 500;
-      font-size: 1.1em;
-      margin-bottom: 0.5em;
-    }
-    .upload-input {
-      font-size: 1em;
-      padding: 0.5em;
-      border-radius: 0.3em;
-      border: 1px solid var(--color-border);
-      background: #fff;
-      color: #222;
-    }
-    .upload-dropzone {
-      border: 2px dashed var(--color-accent);
-      border-radius: 0.5em;
-      padding: 1.2em 2em;
+    .audio-card {
+      background: #ffcb79;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       text-align: center;
-      color: var(--color-accent);
-      background: #f0f6ff;
-      cursor: pointer;
-      transition: background var(--transition), border var(--transition);
-      margin-bottom: 0.7em;
+      transition: transform 0.2s;
     }
-    .upload-dropzone.dragover {
-      background: #e6f0ff;
-      border-color: #0057d8;
+    .audio-card:hover {
+      transform: scale(1.03);
     }
-    .upload-progress {
-      font-size: 0.98em;
-      color: #888;
-      margin-top: 0.5em;
+    .audio-card h4 {
+      margin: 10px 0;
+      font-size: 16px;
+      word-break: break-word;
     }
-    .error-message {
-      color: #d32f2f;
-      background: #fff0f0;
-      border: 1px solid #f5c2c7;
-      border-radius: 0.4em;
-      padding: 0.7em 1em;
-      margin-bottom: 1em;
-      font-size: 1em;
+    .audio-card audio {
+      width: 100%;
+      margin: 10px 0;
     }
-    @media (max-width: 900px) {
-      .main-content {
-        padding: 1.2rem 0.7rem 1.2rem 0.7rem;
-      }
-      .sidebar {
-        width: 200px;
-      }
-      .main-content {
-        margin-left: 200px;
-      }
+    .audio-card a {
+      text-decoration: none;
+      color: #0078d7;
+      font-weight: bold;
     }
-    @media (max-width: 700px) {
-      .sidebar {
-        position: fixed;
-        left: -220px;
-        width: 200px;
-        transition: left var(--transition);
-      }
-      .sidebar.open {
-        left: 0;
-      }
-      .main-content {
-        margin-left: 0;
-        padding-top: 3.5rem;
-      }
-      .sidebar-toggle {
-        position: fixed;
-        left: 1rem;
-        top: 1rem;
-        z-index: 200;
-        background: var(--color-accent);
-        color: #fff;
-        border: none;
-        border-radius: 0.5em;
-        padding: 0.5em 0.8em;
-        font-size: 1.3em;
-        cursor: pointer;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      }
-    }
-    @media (max-width: 500px) {
-      .sidebar {
-        width: 100vw;
-        left: -100vw;
-      }
-      .sidebar.open {
-        left: 0;
-      }
-      .main-content {
-        padding: 1rem 0.3rem 1rem 0.3rem;
-      }
-    }
+    /* Themes */
+    .light { background-color: #f9f9f9; color: #000; }
+    .dark { background-color: #121212; color: #000000; }
+    .blue { background-color: #e6f0ff; color: #003366; }
+    .green { background-color: #e9f7ef; color: #145a32; }
+    header.light { background: #ffcb79; }
+    header.dark { background: #ffcb79; }
+    header.blue { background: #003366; }
+    header.green { background: #145a32; }
   </style>
 </head>
-<body>
-  <button class="sidebar-toggle" aria-label="Open sidebar" style="display:none;">☰</button>
-  <aside class="sidebar" role="navigation" aria-label="Sidebar">
-    <div class="sidebar-header">
-      <span aria-hidden="true">🎵</span>
-      <h2>Avadhoot Prasadik Bhajani Mandal</h2>
-    </div>
-    <nav class="sidebar-nav" aria-label="Main navigation">
-      <button id="nav-view" class="active" data-section="view" data-i18n="viewFiles"><span aria-hidden="true">📁</span> View Files</button>
-      <button id="nav-add" data-section="add" data-i18n="addFiles"><span aria-hidden="true">➕</span> Add Files</button>
+<body class="light">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2 id="sidebarTitle">🎵 Avadhoot Prasadik Bhajani Mandal</h2>
+    <label for="languageSelector">🌐 Language:</label>
+    <select id="languageSelector">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+      <option value="mr">मराठी</option>
+    </select>
+
+    <label for="themeSelector">🎨 Theme:</label>
+    <select id="themeSelector">
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+      <option value="blue">Minimal Blue</option>
+      <option value="green">Minimal Green</option>
+    </select>
+
+    <!-- Alphabetical Navigation -->
+    <h3>📂 Sections</h3>
+    <nav>
+      <a href="#A">A</a>
+      <a href="#B">B</a>
+      <a href="#C">C</a>
+      <a href="#DEF">D E F</a>
+      <a href="#G">G</a>
+      <a href="#HI">H I</a>
+      <a href="#J">J</a>
+      <a href="#KL">K L</a>
+      <a href="#M">M</a>
+      <a href="#NO">N O</a>
+      <a href="#PQ">P Q</a>
+      <a href="#R">R</a>
+      <a href="#S">S</a>
+      <a href="#TU">T U</a>
+      <a href="#VWXYZ">V W X Y Z</a>
     </nav>
-    <div class="sidebar-controls">
-      <div class="theme-switcher">
-        <label data-i18n="theme">Theme</label>
-        <div class="theme-options">
-          <button data-theme="light" class="active" aria-label="Light theme" data-i18n="themeLight">Light</button>
-          <button data-theme="dark" aria-label="Dark theme" data-i18n="themeDark">Dark</button>
-          <button data-theme="minimal" aria-label="Minimal theme" data-i18n="themeMinimal">Minimal</button>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <header class="light">
+      <h1 id="title">Avadhoot Prasadik Bhajani Mandal</h1>
+    </header>
+
+    <!-- Alphabetical Sections -->
+    <div class="section" id="A">
+      <h2>&nbsp;&nbsp;A</h2>
+      <div class="library">
+        <!-- Example audio card -->
+        <div class="audio-card">
+          <h4>Aadhi Rachili Pandhari 18.9.15 - Mehendale</h4>
+          <audio controls src="Bhajans  A 54 -220217/Aadhi rachili pandhari 18.9.15 - Mehendale.wav"></audio>
+          <a href="Bhajans  A 54 -220217/Aadhi rachili pandhari 18.9.15 - Mehendale.wav" download>⬇ Download</a>
         </div>
-      </div>
-      <div class="lang-switcher">
-        <label data-i18n="language">Language</label>
-        <div class="lang-options">
-          <button data-lang="en" class="active" aria-label="English">English</button>
-          <button data-lang="hi" aria-label="Hindi">हिन्दी</button>
-          <button data-lang="mr" aria-label="Marathi">मराठी</button>
+        <div class="audio-card">
+          <h4>Aahe kon konalagi - Athalye</h4>
+          <audio controls src="Bhajans  A 54 -220217/Aahe kon konalagi - Athalye.wav"></audio>
+          <a href="Bhajans  A 54 -220217/Aahe kon konalagi - Athalye.wav" download>⬇ Download</a>
+        </div>
+         <div class="audio-card">
+          <h4>Aai bhavani 20.9.15 - Vilas</h4>
+          <audio controls src="Bhajans  A 54 -220217/Aai bhavani 20.9.15 - Vilas.wav"></audio>
+          <a href="Bhajans  A 54 -220217/Aai bhavani 20.9.15 - Vilas.wav" download>⬇ Download</a>
         </div>
       </div>
     </div>
-  </aside>
-  <main class="main-content">
-    <section id="section-view" class="section active" aria-labelledby="nav-view">
-      <h2 data-i18n="yourFiles">Your Audio Files</h2>
-      <ul class="file-list" id="file-list"></ul>
-      <div id="empty-message" style="color:#888; font-size:1.1em; margin-top:2em;" data-i18n="noFiles">No audio files uploaded yet.</div>
-    </section>
-    <section id="section-add" class="section" aria-labelledby="nav-add">
-      <h2 data-i18n="addNewFiles">Add New Audio Files</h2>
-      <form class="upload-form" id="upload-form" autocomplete="off">
-        <label class="upload-label" for="file-input" data-i18n="selectFiles">Select audio files to upload</label>
-        <div class="upload-dropzone" id="dropzone" tabindex="0" data-i18n="dropzoneText">Drag & drop audio files here or click to browse</div>
-        <input id="file-input" class="upload-input" type="file" accept="audio/*" multiple style="display:none;">
-        <div class="upload-progress" id="upload-progress" style="display:none;"></div>
-        <div class="error-message" id="upload-error" style="display:none;"></div>
-        <button type="submit" style="display:none;"></button>
-      </form>
-    </section>
-  </main>
+
+    <div class="section" id="B">
+      <h2>&nbsp;&nbsp;B</h2>
+      <div class="library"></div>
+    </div>
+
+    <div class="section" id="C">
+      <h2>&nbsp;&nbsp;C</h2>
+      <div class="library"></div>
+    </div>
+
+    <div class="section" id="DEF">
+      <h2>&nbsp;&nbsp;D E F</h2>
+      <div class="library"></div>
+    </div>
+
+    <div class="section" id="G">
+      <h2>&nbsp;&nbsp;G</h2>
+      <div class="library"></div>
+    </div>
+
+    <div class="section" id="HI">
+      <h2>&nbsp;&nbsp;H I</h2>
+      <div class="library"></div>
+    </div>
+
+    <div class="section" id="J">
+      <h2>&nbsp;&nbsp;J</h2>
+      <div class="library"></div>
+    </div>
+
+    <div class="section" id="KL">
+      <h2>&nbsp;&nbsp;K L</h2>
+      <div class="library"></div>
+    </div>
+
+    <div class="section" id="M">
+      <h2>&nbsp;&nbsp;M</h2>
+      <div class="library"></div>
+    </div>
+
+    <div class="section" id="NO">
+      <h2>&nbsp;&nbsp;N O</h2>
+      <div class="library"></div>
+    </div>
+
+    <div class="section" id="PQ">
+      <h2>&nbsp;&nbsp;P Q</h2>
+      <div class="library"></div>
+    </div>
+
+    <div class="section" id="R">
+      <h2>&nbsp;&nbsp;R</h2>
+      <div class="library"></div>
+    </div>
+
+    <div class="section" id="S">
+      <h2>&nbsp;&nbsp;S</h2>
+      <div class="library"></div>
+    </div>
+
+    <div class="section" id="TU">
+      <h2>&nbsp;&nbsp;T U</h2>
+      <div class="library"></div>
+    </div>
+
+    <div class="section" id="VWXYZ">
+      <h2>&nbsp;&nbsp;V W X Y Z</h2>
+      <div class="library"></div>
+    </div>
+  </div>
+
   <script>
-    // --- IndexedDB Setup ---
-    const DB_NAME = 'audio-library-db';
-    const DB_VERSION = 1;
-    const STORE_NAME = 'audioFiles';
-    let db = null;
+    const themeSelector = document.getElementById('themeSelector');
+    const languageSelector = document.getElementById('languageSelector');
+    const header = document.querySelector('header');
 
-    function openDB() {
-      return new Promise((resolve, reject) => {
-        if (db) return resolve(db);
-        const req = indexedDB.open(DB_NAME, DB_VERSION);
-        req.onerror = () => reject(req.error);
-        req.onsuccess = () => { db = req.result; resolve(db); };
-        req.onupgradeneeded = (e) => {
-          const db = e.target.result;
-          if (!db.objectStoreNames.contains(STORE_NAME)) {
-            db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
-          }
-        };
-      });
-    }
-
-    function addAudioFile(file) {
-      return openDB().then(db => {
-        return new Promise((resolve, reject) => {
-          const tx = db.transaction(STORE_NAME, 'readwrite');
-          const store = tx.objectStore(STORE_NAME);
-          const record = {
-            name: file.name,
-            type: file.type,
-            size: file.size,
-            lastModified: file.lastModified,
-            added: Date.now(),
-            blob: file
-          };
-          const req = store.add(record);
-          req.onsuccess = () => resolve(req.result);
-          req.onerror = () => reject(req.error);
-        });
-      });
-    }
-
-    function getAllAudioFiles() {
-      return openDB().then(db => {
-        return new Promise((resolve, reject) => {
-          const tx = db.transaction(STORE_NAME, 'readonly');
-          const store = tx.objectStore(STORE_NAME);
-          const req = store.getAll();
-          req.onsuccess = () => resolve(req.result);
-          req.onerror = () => reject(req.error);
-        });
-      });
-    }
-
-    function deleteAudioFile(id) {
-      return openDB().then(db => {
-        return new Promise((resolve, reject) => {
-          const tx = db.transaction(STORE_NAME, 'readwrite');
-          const store = tx.objectStore(STORE_NAME);
-          const req = store.delete(id);
-          req.onsuccess = () => resolve();
-          req.onerror = () => reject(req.error);
-        });
-      });
-    }
-
-    // --- UI State ---
-    let currentSection = 'view';
-    let currentTheme = localStorage.getItem('theme') || 'light';
-    let currentLang = localStorage.getItem('lang') || 'en';
-    let translations = {
-      en: {
-        appTitle: "Band Audio Archive",
-        viewFiles: "View Files",
-        addFiles: "Add Files",
-        theme: "Theme",
-        themeLight: "Light",
-        themeDark: "Dark",
-        themeMinimal: "Minimal",
-        language: "Language",
-        yourFiles: "Your Audio Files",
-        noFiles: "No audio files uploaded yet.",
-        addNewFiles: "Add New Audio Files",
-        selectFiles: "Select audio files to upload",
-        dropzoneText: "Drag & drop audio files here or click to browse",
-        uploadSuccess: "Files uploaded successfully.",
-        uploadError: "Error uploading files.",
-        play: "Play",
-        download: "Download",
-        delete: "Delete",
-        fileType: "Type",
-        fileSize: "Size",
-        fileAdded: "Added",
-        duration: "Duration",
-        confirmDelete: "Delete this file?",
-        uploading: "Uploading...",
-        errorNotAudio: "Only audio files are allowed.",
-        errorQuota: "Storage quota exceeded. Cannot add more files.",
-        errorGeneral: "An error occurred. Please try again."
-      },
-      hi: {
-        appTitle: "बैंड ऑडियो संग्रह",
-        viewFiles: "फ़ाइलें देखें",
-        addFiles: "नई फ़ाइलें जोड़ें",
-        theme: "थीम",
-        themeLight: "लाइट",
-        themeDark: "डार्क",
-        themeMinimal: "मिनिमल",
-        language: "भाषा",
-        yourFiles: "आपकी ऑडियो फ़ाइलें",
-        noFiles: "कोई ऑडियो फ़ाइलें अपलोड नहीं की गई हैं।",
-        addNewFiles: "नई ऑडियो फ़ाइलें जोड़ें",
-        selectFiles: "अपलोड करने के लिए ऑडियो फ़ाइलें चुनें",
-        dropzoneText: "यहाँ ऑडियो फ़ाइलें ड्रैग करें या क्लिक करें",
-        uploadSuccess: "फ़ाइलें सफलतापूर्वक अपलोड हो गईं।",
-        uploadError: "फ़ाइलें अपलोड करने में त्रुटि।",
-        play: "चलाएँ",
-        download: "डाउनलोड",
-        delete: "हटाएँ",
-        fileType: "प्रकार",
-        fileSize: "आकार",
-        fileAdded: "जोड़ा गया",
-        duration: "अवधि",
-        confirmDelete: "क्या आप इस फ़ाइल को हटाना चाहते हैं?",
-        uploading: "अपलोड हो रहा है...",
-        errorNotAudio: "केवल ऑडियो फ़ाइलें अनुमत हैं।",
-        errorQuota: "स्टोरेज सीमा पार हो गई है। और फ़ाइलें नहीं जोड़ सकते।",
-        errorGeneral: "कोई त्रुटि हुई। कृपया पुनः प्रयास करें।"
-      },
-      mr: {
-        appTitle: "बँड ऑडिओ संग्रह",
-        viewFiles: "फायली पहा",
-        addFiles: "फायली जोडा",
-        theme: "थीम",
-        themeLight: "लाइट",
-        themeDark: "डार्क",
-        themeMinimal: "मिनिमल",
-        language: "भाषा",
-        yourFiles: "तुमच्या ऑडिओ फायली",
-        noFiles: "कोणत्याही ऑडिओ फायली अपलोड केलेल्या नाहीत.",
-        addNewFiles: "नवीन ऑडिओ फायली जोडा",
-        selectFiles: "अपलोडसाठी ऑडिओ फायली निवडा",
-        dropzoneText: "येथे ऑडिओ फायली ड्रॅग करा किंवा क्लिक करा",
-        uploadSuccess: "फायली यशस्वीरित्या अपलोड झाल्या.",
-        uploadError: "फायली अपलोड करण्यात त्रुटी.",
-        play: "प्ले",
-        download: "डाउनलोड",
-        delete: "हटवा",
-        fileType: "प्रकार",
-        fileSize: "आकार",
-        fileAdded: "जोडले",
-        duration: "कालावधी",
-        confirmDelete: "ही फाईल हटवायची आहे का?",
-        uploading: "अपलोड होत आहे...",
-        errorNotAudio: "फक्त ऑडिओ फायली अनुमत आहेत.",
-        errorQuota: "स्टोरेज मर्यादा ओलांडली आहे. आणखी फायली जोडता येणार नाहीत.",
-        errorGeneral: "त्रुटी आली. कृपया पुन्हा प्रयत्न करा."
-      }
+    const translations = {
+      en: { title: "🎵 Professional Audio Library" },
+      hi: { title: "🎵 पेशेवर ऑडियो लाइब्रेरी" },
+      mr: { title: "🎵 व्यावसायिक ऑडिओ लायब्ररी" }
     };
 
-    // --- Utility Functions ---
-    function formatBytes(bytes) {
-      if (bytes < 1024) return bytes + ' B';
-      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-    }
-    function formatDate(ts) {
-      const d = new Date(ts);
-      return d.toLocaleDateString(currentLang, { year: 'numeric', month: 'short', day: 'numeric' });
-    }
-    function getTranslation(key) {
-      return translations[currentLang][key] || translations['en'][key] || key;
-    }
-    function updateI18n() {
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        el.textContent = getTranslation(key);
-      });
-    }
-
-    // --- Theme and Language ---
-    function setTheme(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-      currentTheme = theme;
-      document.querySelectorAll('.theme-options button').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.theme === theme);
-      });
-    }
-    function setLanguage(lang) {
-      currentLang = lang;
-      localStorage.setItem('lang', lang);
-      document.querySelectorAll('.lang-options button').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.lang === lang);
-      });
-      updateI18n();
-      renderFileList();
-    }
-
-    // --- Navigation ---
-    function showSection(section) {
-      currentSection = section;
-      document.querySelectorAll('.sidebar-nav button').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.section === section);
-      });
-      document.querySelectorAll('.section').forEach(sec => {
-        sec.classList.toggle('active', sec.id === 'section-' + section);
-      });
-    }
-
-    // --- File List Rendering ---
-    let audioFilesCache = [];
-    function renderFileList() {
-      getAllAudioFiles().then(files => {
-        audioFilesCache = files;
-        const list = document.getElementById('file-list');
-        list.innerHTML = '';
-        if (!files.length) {
-          document.getElementById('empty-message').style.display = '';
-          return;
-        }
-        document.getElementById('empty-message').style.display = 'none';
-        files.sort((a, b) => b.added - a.added);
-        files.forEach(file => {
-          const li = document.createElement('li');
-          li.className = 'file-item';
-          // File meta
-          const meta = document.createElement('div');
-          meta.className = 'file-meta';
-          const name = document.createElement('div');
-          name.className = 'file-name';
-          name.textContent = file.name;
-          meta.appendChild(name);
-          const info = document.createElement('div');
-          info.className = 'file-info';
-          info.innerHTML = `
-            <span>${getTranslation('fileType')}: ${file.type || '-'}</span>
-            <span>${getTranslation('fileSize')}: ${formatBytes(file.size)}</span>
-            <span>${getTranslation('fileAdded')}: ${formatDate(file.added)}</span>
-          `;
-          meta.appendChild(info);
-          // Audio player
-          const audio = document.createElement('audio');
-          audio.className = 'audio-player';
-          audio.controls = true;
-          const blobUrl = URL.createObjectURL(file.blob);
-          audio.src = blobUrl;
-          audio.addEventListener('loadedmetadata', () => {
-            if (audio.duration && !isNaN(audio.duration)) {
-              let dur = document.createElement('span');
-              dur.style.marginLeft = '1em';
-              dur.textContent = `${getTranslation('duration')}: ${audio.duration.toFixed(1)}s`;
-              info.appendChild(dur);
-            }
-          });
-          meta.appendChild(audio);
-          // Actions
-          const actions = document.createElement('div');
-          actions.className = 'file-actions';
-          // Download
-          const btnDownload = document.createElement('button');
-          btnDownload.title = getTranslation('download');
-          btnDownload.innerHTML = '⬇️';
-          btnDownload.addEventListener('click', () => {
-            const a = document.createElement('a');
-            a.href = blobUrl;
-            a.download = file.name;
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(() => {
-              document.body.removeChild(a);
-              URL.revokeObjectURL(blobUrl);
-            }, 100);
-          });
-          actions.appendChild(btnDownload);
-          // Delete
-          const btnDelete = document.createElement('button');
-          btnDelete.title = getTranslation('delete');
-          btnDelete.innerHTML = '🗑️';
-          btnDelete.addEventListener('click', () => {
-            if (confirm(getTranslation('confirmDelete'))) {
-              deleteAudioFile(file.id).then(() => renderFileList());
-            }
-          });
-          actions.appendChild(btnDelete);
-          li.appendChild(meta);
-          li.appendChild(actions);
-          list.appendChild(li);
-        });
-      });
-    }
-
-    // --- Upload Handling ---
-    const uploadForm = document.getElementById('upload-form');
-    const fileInput = document.getElementById('file-input');
-    const dropzone = document.getElementById('dropzone');
-    const uploadProgress = document.getElementById('upload-progress');
-    const uploadError = document.getElementById('upload-error');
-
-    function showUploadError(msg) {
-      uploadError.textContent = msg;
-      uploadError.style.display = '';
-    }
-    function clearUploadError() {
-      uploadError.textContent = '';
-      uploadError.style.display = 'none';
-    }
-
-    function handleFiles(files) {
-      clearUploadError();
-      uploadProgress.style.display = '';
-      uploadProgress.textContent = getTranslation('uploading');
-      let validFiles = [];
-      for (let file of files) {
-        if (!file.type.startsWith('audio/')) {
-          showUploadError(getTranslation('errorNotAudio'));
-          uploadProgress.style.display = 'none';
-          return;
-        }
-        validFiles.push(file);
-      }
-      if (!validFiles.length) {
-        uploadProgress.style.display = 'none';
-        return;
-      }
-      // Store files one by one
-      let completed = 0;
-      let quotaError = false;
-      (function storeNext(i) {
-        if (i >= validFiles.length) {
-          uploadProgress.textContent = getTranslation('uploadSuccess');
-          setTimeout(() => { uploadProgress.style.display = 'none'; }, 1200);
-          renderFileList();
-          return;
-        }
-        addAudioFile(validFiles[i]).then(() => {
-          completed++;
-          uploadProgress.textContent = `${getTranslation('uploading')} (${completed}/${validFiles.length})`;
-          storeNext(i + 1);
-        }).catch(err => {
-          if (err && err.name === 'QuotaExceededError') {
-            showUploadError(getTranslation('errorQuota'));
-            quotaError = true;
-          } else {
-            showUploadError(getTranslation('errorGeneral'));
-          }
-          uploadProgress.style.display = 'none';
-        });
-      })(0);
-    }
-
-    dropzone.addEventListener('click', () => fileInput.click());
-    dropzone.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') fileInput.click();
-    });
-    dropzone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropzone.classList.add('dragover');
-    });
-    dropzone.addEventListener('dragleave', (e) => {
-      e.preventDefault();
-      dropzone.classList.remove('dragover');
-    });
-    dropzone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropzone.classList.remove('dragover');
-      handleFiles(e.dataTransfer.files);
-    });
-    fileInput.addEventListener('change', (e) => {
-      handleFiles(e.target.files);
-      fileInput.value = '';
-    });
-    uploadForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      handleFiles(fileInput.files);
+    themeSelector.addEventListener('change', () => {
+      document.body.className = themeSelector.value;
+      header.className = themeSelector.value;
     });
 
-    // --- Sidebar and Navigation ---
-    document.getElementById('nav-view').addEventListener('click', () => showSection('view'));
-    document.getElementById('nav-add').addEventListener('click', () => showSection('add'));
-    document.querySelectorAll('.theme-options button').forEach(btn => {
-      btn.addEventListener('click', () => setTheme(btn.dataset.theme));
+    languageSelector.addEventListener('change', () => {
+      const lang = languageSelector.value;
+      document.getElementById('title').textContent = translations[lang].title;
     });
-    document.querySelectorAll('.lang-options button').forEach(btn => {
-      btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
-    });
-
-    // --- Responsive Sidebar ---
-    const sidebar = document.querySelector('.sidebar');
-    const sidebarToggle = document.querySelector('.sidebar-toggle');
-    function updateSidebarToggle() {
-      if (window.innerWidth <= 700) {
-        sidebarToggle.style.display = '';
-        sidebar.classList.remove('open');
-      } else {
-        sidebarToggle.style.display = 'none';
-        sidebar.classList.remove('open');
-      }
-    }
-    sidebarToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-    });
-    window.addEventListener('resize', updateSidebarToggle);
-
-    // --- Initialization ---
-    function init() {
-      setTheme(currentTheme);
-      setLanguage(currentLang);
-      showSection('view');
-      updateSidebarToggle();
-      renderFileList();
-    }
-    document.addEventListener('DOMContentLoaded', init);
 
     // Ensure only one audio plays at a time
-document.addEventListener('play', function(e){
-  const audios = document.getElementsByTagName('audio');
-  for(let i = 0; i < audios.length; i++){
-    if(audios[i] !== e.target){
-      audios[i].pause();
-    }
-  }
-}, true);
-
-document.getElementById('sidebarTitle').textContent = "My Band Library";
+    document.addEventListener('play', function(e){
+      const audios = document.getElementsByTagName('audio');
+      for(let i = 0; i < audios.length; i++){
+        if(audios[i] !== e.target){
+          audios[i].pause();
+        }
+      }
+    }, true);
   </script>
-
 </body>
 </html>
